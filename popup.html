@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 380px;
+      min-height: 200px;
+      max-height: 500px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      overflow-y: auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f3460, #16213e);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #0f3460;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header svg {
+      flex-shrink: 0;
+    }
+
+    .header h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e94560;
+    }
+
+    .header .count {
+      margin-left: auto;
+      background: #e94560;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .toolbar {
+      padding: 10px 16px;
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid #16213e;
+    }
+
+    .toolbar button {
+      flex: 1;
+      padding: 7px 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-scan {
+      background: #0f3460;
+      color: #e0e0e0;
+    }
+    .btn-scan:hover { background: #1a4a7a; }
+
+    .btn-download-all {
+      background: #e94560;
+      color: white;
+    }
+    .btn-download-all:hover { background: #c73a52; }
+    .btn-download-all:disabled {
+      background: #444;
+      cursor: not-allowed;
+    }
+
+    .status {
+      padding: 10px 16px;
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+    }
+
+    .video-list {
+      padding: 8px;
+    }
+
+    .video-item {
+      background: #16213e;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .video-thumb {
+      width: 64px;
+      height: 48px;
+      border-radius: 4px;
+      background: #0f3460;
+      flex-shrink: 0;
+      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-thumb svg {
+      opacity: 0.5;
+    }
+
+    .video-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .video-info .title {
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+
+    .video-info .meta {
+      font-size: 11px;
+      color: #888;
+    }
+
+    .video-item .btn-dl {
+      background: #e94560;
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .video-item .btn-dl:hover { background: #c73a52; }
+
+    .empty-state {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .empty-state svg { margin-bottom: 12px; opacity: 0.3; }
+    .empty-state p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+    .empty-state .hint {
+      font-size: 11px;
+      color: #555;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2">
+      <polygon points="5 3 19 12 5 21 5 3"/>
+    </svg>
+    <h1>Ad Library Downloader</h1>
+    <span class="count" id="count" style="display:none;">0</span>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn-scan" id="scanBtn">Scan Page</button>
+    <button class="btn-download-all" id="downloadAllBtn" disabled>Download All</button>
+  </div>
+
+  <div id="content">
+    <div class="empty-state" id="emptyState">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <p>No videos found yet</p>
+      <p class="hint">Navigate to Facebook Ad Library and click "Scan Page", or scroll through ads to detect videos automatically.</p>
+    </div>
+    <div class="video-list" id="videoList" style="display:none;"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
